@@ -1,18 +1,10 @@
 .header {
   margin-top: 45px;
+  border-bottom: 1px solid rgb(84 84 84 / 0.7);
+  padding-bottom: 41px;
 }
 
 .header__logo {
   width: 173px;
   height: 33px;
-}
-
-.header__divider {
-  display: flex;
-}
-
-.header__divider-line {
-  border-bottom: 1px solid #545454;
-  flex-grow: 1;
-  padding-top: 41px;
 }

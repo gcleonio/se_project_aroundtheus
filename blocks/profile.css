@@ -19,7 +19,7 @@
   height: 24px;
   width: 24px;
   grid-area: button;
-  border: solid 2px white;
+  border: solid 1px white;
   align-self: center;
   margin-left: 25px;
 }
