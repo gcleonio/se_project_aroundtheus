@@ -75,3 +75,59 @@
   object-fit: cover;
   background-position: center;
 }
+
+@media screen and (max-width: 745px) {
+  .profile {
+    flex-direction: column;
+    padding-top: 38.25px;
+  }
+
+  .profile__info {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: baseline;
+    grid-gap: 0;
+  }
+
+  .profile__image {
+    margin: 0;
+  }
+
+  .profile__title {
+    font-size: 22px;
+    line-height: 26.63px;
+    padding-top: 30px;
+    max-width: 235px;
+  }
+
+  .profile__description {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 16.94px;
+    padding-top: 14px;
+    max-width: 235px;
+  }
+
+  .profile__add-button {
+    margin: 0;
+    width: calc(100% - 38px);
+    min-width: 282px;
+    margin-top: 36px;
+  }
+
+  .profile__edit-button {
+    margin-left: 10px;
+    align-self: baseline;
+    height: 18px;
+    width: 18px;
+  }
+}
+
+@media screen and (min-width: 512px) and (max-width: 746px) {
+  .profile__description {
+    max-width: calc(100% - 38px);
+  }
+}

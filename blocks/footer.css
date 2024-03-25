@@ -8,3 +8,12 @@
   color: #545454;
   font-family: "Inter", Arial, sans-serif;
 }
+
+@media screen and (max-width: 745px) {
+  .footer__copyright {
+    padding-top: 48px;
+    padding-bottom: 36px;
+    font-size: 14px;
+    line-height: 16.94px;
+  }
+}

@@ -23,6 +23,7 @@ Plans for improving the project:
 [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)
 
 **Images**
+
 ![Desktop resolution](./images/demo/desktop.png)
 
 ![Mobile resolution](./images/demo/mobile.png)

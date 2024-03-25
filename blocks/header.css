@@ -8,3 +8,27 @@
   width: 173px;
   height: 33px;
 }
+
+@media screen and (max-width: 745px) {
+  .header {
+    padding-top: 28px;
+    padding-bottom: 32px;
+  }
+
+  .header__logo {
+    width: 126px;
+    height: 24px;
+  }
+}
+
+@media screen and (width: 320px) {
+  .header {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .header__logo {
+    padding-left: 27px;
+  }
+}
