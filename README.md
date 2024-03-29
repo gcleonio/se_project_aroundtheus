@@ -18,6 +18,8 @@ Plans for improving the project:
 
 [Link to project on GitHub Pages](https://gcleonio.github.io/se_project_aroundtheus/)
 
+[Link to video](https://www.loom.com/share/f106697c42a641cbabb26d8e4502ae2a?sid=071d5f3b-2fce-47d9-9ae4-5cc94c4ed78d)
+
 **Figma**
 
 [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)
@@ -27,5 +29,3 @@ Plans for improving the project:
 ![Desktop resolution](./images/demo/desktop.png)
 
 ![Mobile resolution](./images/demo/mobile.png)
-
-<!-- Note: I have not included the video because I'd like to fix corrections before recording. -->

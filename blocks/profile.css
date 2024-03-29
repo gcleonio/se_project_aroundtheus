@@ -108,7 +108,7 @@
     font-size: 14px;
     line-height: 16.94px;
     padding-top: 14px;
-    max-width: 235px;
+    max-width: calc(100% - 38px);
   }
 
   .profile__add-button {
@@ -123,11 +123,5 @@
     align-self: baseline;
     height: 18px;
     width: 18px;
-  }
-}
-
-@media screen and (min-width: 512px) and (max-width: 746px) {
-  .profile__description {
-    max-width: calc(100% - 38px);
   }
 }
