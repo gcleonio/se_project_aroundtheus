@@ -62,16 +62,17 @@
   flex-direction: column;
 }
 
-.modal__input-title {
+.modal__input {
   border: 0;
   border-bottom: 1px solid rgb(0 0 0 / 0.2);
+}
+
+#profile-title-input {
   margin-top: 54px;
   padding-bottom: 13.26px;
 }
 
-.modal__input-description {
-  border: 0;
-  border-bottom: 1px solid rgb(0 0 0 / 0.2);
+#profile-description-input {
   margin-top: 29.74px;
   padding-bottom: 13.34px;
 }
@@ -119,13 +120,12 @@
     left: calc(90%);
   }
 
-  .modal__input-title {
-    padding-bottom: 13px;
-    margin-top: 75px;
-  }
+#profile-title-input {
+  padding-bottom: 13px;
+  margin-top: 75px;
+}
 
-  .modal__input-description {
-    padding-bottom: 13px;
-    margin-top: 30px;
-  }
+#profile-description-input {
+  padding-bottom: 13px;
+  margin-top: 30px;
 }
