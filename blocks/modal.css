@@ -120,12 +120,13 @@
     left: calc(90%);
   }
 
-#profile-title-input {
-  padding-bottom: 13px;
-  margin-top: 75px;
-}
+  #profile-title-input {
+    padding-bottom: 13px;
+    margin-top: 75px;
+  }
 
-#profile-description-input {
-  padding-bottom: 13px;
-  margin-top: 30px;
+  #profile-description-input {
+    padding-bottom: 13px;
+    margin-top: 30px;
+  }
 }
