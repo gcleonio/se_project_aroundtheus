@@ -96,6 +96,14 @@
         </form>
       </div>
     </div>
+    <!-- Picture modal -->
+    <div class="modal" id="card-image-modal">
+      <div class="modal__container modal__image-container">
+        <button class="modal__close-button" id="modal-close-button"></button>
+        <img class="modal__image" id="modal-image" src="" alt="" />
+        <h6 class="modal__title" id="modal-title"></h6>
+      </div>
+    </div>
 
     <template id="card-template">
       <li class="card">
@@ -105,6 +113,11 @@
           <button
             class="card__like-button"
             aria-label="like"
+            type="button"
+          ></button>
+          <button
+            class="card__delete-button"
+            aria-label="delete"
             type="button"
           ></button>
         </div>
