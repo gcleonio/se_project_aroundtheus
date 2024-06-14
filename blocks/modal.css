@@ -37,10 +37,14 @@
   min-width: 50vw;
   max-width: 75vw;
   max-height: 75vh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal__image {
   width: 100%;
+  object-fit: cover;
 }
 
 .modal__title {
@@ -162,13 +166,5 @@
   #profile-description-input {
     padding-bottom: 13px;
     margin-top: 30px;
-  }
-
-  .modal__image-container {
-    padding: 0;
-    min-height: 55vh;
-    min-width: 50vw;
-    max-width: 75vw;
-    max-height: 75vh;
   }
 }
