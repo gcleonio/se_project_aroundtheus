@@ -93,6 +93,7 @@
 .modal__input {
   border: 0;
   border-bottom: 1px solid rgb(0 0 0 / 0.2);
+  width: 100%;
 }
 
 #profile-title-input {
@@ -129,6 +130,30 @@
 .modal__save-button:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.modal__save-button_disabled {
+  opacity: 20%;
+}
+
+.modal__input_type_error {
+}
+
+.modal__label {
+  position: relative;
+}
+
+.modal__error {
+  position: absolute;
+  font-size: 12px;
+  line-height: 14.52px;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 400;
+  color: red;
+  top: calc(100% + 5px);
+}
+
+.modal__error_visible {
 }
 
 @media screen and (max-width: 630px) {

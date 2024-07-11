@@ -59,13 +59,35 @@ const cardImageModalCloseButton = cardImageModal.querySelector(
 
 // Functions
 
+// Open and Close Modal
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
 }
 
-function openModal(modal) {
-  modal.classList.add("modal_opened");
+// Close modal on overlay click or ESC keydown
+function closeModalOnEvent(event) {
+  const modals = document.querySelectorAll(".modal");
+  if (event.type === "keyup" && event.key === "Escape") {
+    modals.forEach((modal) => closeModal(modal));
+  }
+
+  if (event.type === "click") {
+    modals.forEach((modal) => {
+      if (!modal.querySelector(".modal__container").contains(event.target)) {
+        closeModal(modal);
+      }
+    });
+  }
 }
+
+document.addEventListener("keyup", closeModalOnEvent);
+profileEditModal.addEventListener("click", closeModalOnEvent);
+addCardModal.addEventListener("click", closeModalOnEvent);
+cardImageModal.addEventListener("click", closeModalOnEvent);
 
 function renderCard(cardData) {
   const cardElement = getCardElement(cardData);
@@ -82,6 +104,7 @@ function showPreviewImage({ name, link }) {
   cardImageModalPreviewText.textContent = name;
 }
 
+// Get Card Element Information
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImageEl = cardElement.querySelector(".card__image");
@@ -89,18 +112,22 @@ function getCardElement(cardData) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__delete-button");
 
+  // Card Like Button
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
 
+  // Card Delete Button
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
 
+  // Showing Full Image
   cardImageEl.addEventListener("click", () => {
     showPreviewImage(cardData);
   });
 
+  // This is information grabbed from initial array to make new cards
   cardImageEl.src = cardData.link;
   cardImageEl.alt = cardData.name;
   cardTitleEl.textContent = cardData.name;
@@ -109,6 +136,7 @@ function getCardElement(cardData) {
 
 // Event Handlers
 
+// Edit Profile Submit Handler
 function handleProfileEditSubmit(e) {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
@@ -116,6 +144,7 @@ function handleProfileEditSubmit(e) {
   closeModal(profileEditModal);
 }
 
+// Add New Card Submit Handler
 function handleAddCardFormSubmit(e) {
   e.preventDefault();
   const name = cardTitleInput.value;
