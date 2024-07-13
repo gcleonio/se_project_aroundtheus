@@ -26,29 +26,21 @@ function hasInvalidInput(inputList) {
   return !inputList.every((inputEl) => inputEl.validity.valid);
 }
 
-function disableButton(formEl) {
-  const submitButton = formEl.querySelector(submitButtonSelector);
-  submitButton.classList.add(inactiveButtonClass);
-  submitButton.disabled = true;
-}
-
-function enableButton(formEl) {
-  submitButton.classList.remove(inactiveButtonClass);
-  submitButton.disabled = false;
-}
-
-function toggleButtonState(inputEls, submitButton, options) {
-  const formEl = document.querySelectorAll(options.formSelector);
+function toggleButtonState(inputEls, submitButton, { inactiveButtonClass }) {
   if (hasInvalidInput(inputEls)) {
-    disableButton(formEl);
-    return;
+    submitButton.classList.add(inactiveButtonClass);
+    submitButton.disabled = true;
+  } else {
+    submitButton.classList.remove(inactiveButtonClass);
+    submitButton.disabled = false;
   }
-  enableButton(formEl);
 }
 
 function setEventListeners(formEl, options) {
   const { inputSelector, submitButtonSelector } = options;
-  const inputEls = [...formEl.querySelectorAll(inputSelector)];
+  // transforming inputs into an copied array using Array.from() method
+  const inputEls = Array.from(formEl.querySelectorAll(options.inputSelector));
+  // same as above: const inputEls = [...formEl.querySelectorAll(inputSelector)];
   const submitButton = formEl.querySelector(submitButtonSelector);
   inputEls.forEach((inputEl) => {
     inputEl.addEventListener("input", (e) => {
@@ -60,8 +52,10 @@ function setEventListeners(formEl, options) {
 
 function enableValidation(options) {
   const formEls = [...document.querySelectorAll(options.formSelector)];
+  // Using forEach method to receive a specific form
   formEls.forEach((formEl) => {
     formEl.addEventListener("submit", (e) => {
+      // prevent page from refreshing
       e.preventDefault();
     });
 
