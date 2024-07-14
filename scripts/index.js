@@ -62,10 +62,12 @@ const cardImageModalCloseButton = cardImageModal.querySelector(
 // Open and Close Modal
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keyup", closeModalOnEvent);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keyup", closeModalOnEvent);
 }
 
 // Close modal on overlay click or ESC keydown
@@ -84,7 +86,6 @@ function closeModalOnEvent(event) {
   }
 }
 
-document.addEventListener("keyup", closeModalOnEvent);
 profileEditModal.addEventListener("click", closeModalOnEvent);
 addCardModal.addEventListener("click", closeModalOnEvent);
 cardImageModal.addEventListener("click", closeModalOnEvent);
