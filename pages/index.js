@@ -82,11 +82,8 @@ const config = {
   errorClass: "modal__error_visible",
 };
 
-const editFormElement = profileEditModal.querySelector(".modal__form");
-const addFormElement = addCardModal.querySelector(".modal__form");
-
-const editFormValidator = new FormValidator(config, editFormElement);
-const addFormValidator = new FormValidator(config, addFormElement);
+const editFormValidator = new FormValidator(config, profileEditForm);
+const addFormValidator = new FormValidator(config, addCardFormElement);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
@@ -127,21 +124,29 @@ profileEditModal.addEventListener("click", closeModalOnEvent);
 addCardModal.addEventListener("click", closeModalOnEvent);
 cardImageModal.addEventListener("click", closeModalOnEvent);
 
-function renderCard(cardData, cardListEl) {
-  // const cardElement = getCardElement(cardData);
-  // cardListEl.prepend(cardElement);
-  const card = new Card(cardData, "#card-template", handleImageClick);
-  cardListEl.prepend(card.getView());
+/************************
+ * CREATE/ ADD NEW CARD *
+ ************************/
+// Create New Card Element
+function createCard(item) {
+  const card = new Card(item, "#card-template", handleImageClick);
+  return card.getView();
 }
 
-function handleImageClick({ name, link }) {
+// Add New Card to DOM
+function renderCard(cardData, cardListEl) {
+  const card = createCard(cardData);
+  cardListEl.prepend(card);
+}
+
+function handleImageClick(cardData) {
   openModal(cardImageModal);
   const imageElement = document.querySelector(".modal__image");
-  imageElement.src = this._link;
-  imageElement.alt = this._name;
+  imageElement.src = cardData.link;
+  imageElement.alt = cardData.name;
   const cardImageModalPreviewText =
     cardImageModal.querySelector(".modal__title");
-  cardImageModalPreviewText.textContent = name;
+  cardImageModalPreviewText.textContent = cardData.name;
 }
 
 // Edit Profile Submit Handler
