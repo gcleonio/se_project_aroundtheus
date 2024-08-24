@@ -1,5 +1,10 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import UserInfo from "../components/UserInfo.js";
 
 const initialCards = [
   {
@@ -51,13 +56,13 @@ const cardTitleInput = addCardFormElement.querySelector(
 const cardUrlInput = addCardFormElement.querySelector(".modal__input_type_url");
 
 // Full Image Modal
-const cardImageModal = document.querySelector("#card-image-modal");
-const cardImageModalCloseButton = cardImageModal.querySelector(
-  "#modal-close-button"
-);
+// const cardImageModal = document.querySelector("#card-image-modal");
+// const cardImageModalCloseButton = cardImageModal.querySelector(
+//   "#modal-close-button"
+// );
 
 // Card Template
-const cardListEl = document.querySelector(".cards__list");
+// const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
@@ -93,36 +98,36 @@ addFormValidator.enableValidation();
  **************/
 
 // Open Modal
-function openModal(modal) {
-  modal.classList.add("modal_opened");
-  document.addEventListener("keyup", closeModalOnEvent);
-}
+// function openModal(modal) {
+//   modal.classList.add("modal_opened");
+//   document.addEventListener("keyup", closeModalOnEvent);
+// }
 
 // Close Modal
-function closeModal(modal) {
-  modal.classList.remove("modal_opened");
-  document.removeEventListener("keyup", closeModalOnEvent);
-}
+// function closeModal(modal) {
+//   modal.classList.remove("modal_opened");
+//   document.removeEventListener("keyup", closeModalOnEvent);
+// }
 
 // Close modal on overlay click or ESC keydown
-function closeModalOnEvent(event) {
-  const modals = document.querySelectorAll(".modal");
-  if (event.type === "keyup" && event.key === "Escape") {
-    modals.forEach((modal) => closeModal(modal));
-  }
+// function closeModalOnEvent(event) {
+//   const modals = document.querySelectorAll(".modal");
+//   if (event.type === "keyup" && event.key === "Escape") {
+//     modals.forEach((modal) => closeModal(modal));
+//   }
 
-  if (event.type === "click") {
-    modals.forEach((modal) => {
-      if (!modal.querySelector(".modal__container").contains(event.target)) {
-        closeModal(modal);
-      }
-    });
-  }
-}
+//   if (event.type === "click") {
+//     modals.forEach((modal) => {
+//       if (!modal.querySelector(".modal__container").contains(event.target)) {
+//         closeModal(modal);
+//       }
+//     });
+//   }
+// }
 
-profileEditModal.addEventListener("click", closeModalOnEvent);
-addCardModal.addEventListener("click", closeModalOnEvent);
-cardImageModal.addEventListener("click", closeModalOnEvent);
+// profileEditModal.addEventListener("click", closeModalOnEvent);
+// addCardModal.addEventListener("click", closeModalOnEvent);
+// cardImageModal.addEventListener("click", closeModalOnEvent);
 
 /************************
  * CREATE/ ADD NEW CARD *
@@ -133,11 +138,38 @@ function createCard(item) {
   return card.getView();
 }
 
+// Add elements to the DOM
+const cardListEl = new Section(
+  {
+    items: initialCards,
+    renderer: (data) => {
+      cardListEl.addItem(createCard(data));
+    },
+  },
+  ".cards__list"
+);
+
+cardListEl.renderItems();
+
+// Creates an instance of UserInfo class
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  descriptionSelector: ".profile__description",
+});
+
 // Add New Card to DOM
 function renderCard(cardData, cardListEl) {
   const card = createCard(cardData);
   cardListEl.prepend(card);
 }
+
+// Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
+const cardImageModal = new PopupWithImage("#card-image-modal");
+cardImageModal.setEventListeners();
+
+// const cardImageModalCloseButton = cardImageModal.querySelector(
+//   "#modal-close-button"
+// );
 
 function handleImageClick(cardData) {
   openModal(cardImageModal);
@@ -148,6 +180,19 @@ function handleImageClick(cardData) {
     cardImageModal.querySelector(".modal__title");
   cardImageModalPreviewText.textContent = cardData.name;
 }
+
+// Creates an instance of PopupWithForm class for each popup that contains a form, and calls their setEventListeners()
+const addCardPopup = new PopupWithForm(
+  "#add-card-modal",
+  handleAddCardFormSubmit
+);
+addCardPopup.setEventListeners();
+
+const editProfilePopup = new PopupWithForm(
+  "#profile-edit-modal",
+  handleProfileEditSubmit
+);
+editProfilePopup.setEventListeners();
 
 // Edit Profile Submit Handler
 function handleProfileEditSubmit(e) {
@@ -172,24 +217,28 @@ function handleAddCardFormSubmit(e) {
 profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileDescriptionInput.value = profileDescription.textContent;
-  openModal(profileEditModal);
+  // openModal(profileEditModal);
+  profileEditModal.open();
 });
 
-profileModalCloseButton.addEventListener("click", () =>
-  closeModal(profileEditModal)
-);
+// profileModalCloseButton.addEventListener("click", () =>
+//   closeModal(profileEditModal)
+// );
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
 
 addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
-cardImageModalCloseButton.addEventListener("click", () =>
-  closeModal(cardImageModal)
-);
+// cardImageModalCloseButton.addEventListener("click", () =>
+//   closeModal(cardImageModal)
+// );
 
-addNewCardButton.addEventListener("click", () => openModal(addCardModal));
-addCardModalCloseButton.addEventListener("click", () =>
-  closeModal(addCardModal)
-);
+addNewCardButton.addEventListener("click", () => {
+  addCardModal.open();
+});
+// addNewCardButton.addEventListener("click", () => openModal(addCardModal));
+// addCardModalCloseButton.addEventListener("click", () =>
+//   closeModal(addCardModal)
+// );
 
 // Populate Initial Cards
 initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
