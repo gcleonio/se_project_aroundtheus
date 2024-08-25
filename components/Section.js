@@ -8,8 +8,7 @@ export default class Section {
   // public method that renders all elements on the page
   renderItems() {
     this._items.forEach((item) => {
-      const element = this._renderer(item);
-      this._container.prepend(element);
+      this._renderer(item);
     });
   }
 
