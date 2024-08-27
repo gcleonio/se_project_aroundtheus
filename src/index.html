@@ -7,22 +7,23 @@
     <meta name="author" content="Gino Leonio" />
     <meta name="keywords" content="HTML, CSS, Figma, Responsive Design" />
     <title>Around The U.S.</title>
-    <link rel="stylesheet" href="./pages/index.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" /> -->
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
         <img
-          src="./images/logo.svg"
-          alt="Around The U.S. logo"
+          src="<%=require('./images/logo.svg')%>"
+          alt="Around The U.S.
+        logo"
           class="header__logo"
         />
       </header>
       <main class="content">
         <section class="profile page__section">
           <img
-            src="./images/jacques-cousteau.jpg"
+            src="<%=require('./images/jacques-cousteau.jpg')%>"
             alt="Avatar"
             class="profile__image"
           />
@@ -156,7 +157,5 @@
         </div>
       </li>
     </template>
-
-    <script src="./pages/index.js" type="module"></script>
   </body>
 </html>
