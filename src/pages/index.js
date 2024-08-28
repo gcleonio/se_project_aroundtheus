@@ -159,10 +159,10 @@ const userInfo = new UserInfo({
 });
 
 // Add New Card to DOM
-function renderCard(cardData, cardListEl) {
-  const card = createCard(cardData);
-  cardListEl.prepend(card);
-}
+// function renderCard(cardData, cardListEl) {
+//   const card = createCard(cardData);
+//   cardListEl.prepend(card);
+// }
 
 // Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
 const cardImageModal = new PopupWithImage("#card-image-modal");
@@ -197,29 +197,52 @@ const editProfilePopup = new PopupWithForm(
 editProfilePopup.setEventListeners();
 
 // Edit Profile Submit Handler
-function handleProfileEditSubmit(e) {
-  e.preventDefault();
-  profileTitle.textContent = profileTitleInput.value;
-  profileDescription.textContent = profileDescriptionInput.value;
-  closeModal(profileEditModal);
+// function handleProfileEditSubmit(e) {
+//   e.preventDefault();
+//   profileTitle.textContent = profileTitleInput.value;
+//   profileDescription.textContent = profileDescriptionInput.value;
+//   closeModal(profileEditModal);
+// }
+
+const formData = {
+  title: profileTitleInput,
+  description: profileDescriptionInput,
+};
+
+function handleProfileEditSubmit(formData) {
+  userInfo.setUserInfo(formData);
+  editProfilePopup.close();
 }
 
 // Add New Card Submit Handler
-function handleAddCardFormSubmit(e) {
-  e.preventDefault();
-  const name = cardTitleInput.value;
-  const link = cardUrlInput.value;
-  renderCard({ name, link }, cardListEl);
-  closeModal(addCardModal);
-  e.target.reset();
+// function handleAddCardFormSubmit(e) {
+//   e.preventDefault();
+//   const name = cardTitleInput.value;
+//   const link = cardUrlInput.value;
+//   renderCard({ name, link }, cardListEl);
+//   closeModal(addCardModal);
+//   e.target.reset();
+// }
+
+function handleAddCardFormSubmit(inputValues) {
+  const cardElement = createCard(inputValues);
+  cardListEl.addItem(cardElement);
+  addCardPopup.close();
 }
 
 // Form Listeners
 
+// profileEditButton.addEventListener("click", () => {
+//   // profileTitleInput.value = profileTitle.textContent;
+//   // profileDescriptionInput.value = profileDescription.textContent;
+//   // openModal(profileEditModal);
+//   editProfilePopup.open();
+// });
+
 profileEditButton.addEventListener("click", () => {
-  profileTitleInput.value = profileTitle.textContent;
-  profileDescriptionInput.value = profileDescription.textContent;
-  // openModal(profileEditModal);
+  const currentUserInfo = userInfo.getUserInfo();
+  profileTitleInput.value = currentUserInfo.name;
+  profileDescriptionInput.value = currentUserInfo.description;
   editProfilePopup.open();
 });
 
