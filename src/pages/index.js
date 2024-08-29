@@ -204,13 +204,12 @@ editProfilePopup.setEventListeners();
 //   closeModal(profileEditModal);
 // }
 
-const formData = {
-  title: profileTitleInput,
-  description: profileDescriptionInput,
-};
-
+// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
 function handleProfileEditSubmit(formData) {
-  userInfo.setUserInfo(formData);
+  userInfo.setUserInfo({
+    name: formData.title,
+    description: formData.description,
+  });
   editProfilePopup.close();
 }
 
@@ -224,10 +223,37 @@ function handleProfileEditSubmit(formData) {
 //   e.target.reset();
 // }
 
+// function handleAddCardFormSubmit(inputValues) {
+//   // const cardElement = createCard(inputValues);
+//   const cardElement = createCard({
+//     name: inputValues.title,
+//     link: inputValues.url,
+//   });
+//   cardListEl.addItem(cardElement);
+//   addCardPopup.close();
+// }
+
+// function handleAddCardFormSubmit(inputValues) {
+//   const cardElement = createCard({
+//     name: inputValues.title,
+//     link: inputValues.url,
+//   });
+//   const cardData = { name: name, link: link };
+//   renderCard(cardData);
+//   addCardPopup.close();
+//   e.target.reset();
+//   addFormValidator.disableSubmitButton();
+// }
+
 function handleAddCardFormSubmit(inputValues) {
-  const cardElement = createCard(inputValues);
-  cardListEl.addItem(cardElement);
+  const name = inputValues.title;
+  const link = inputValues.url;
+  const cardData = { name: title, link: url };
+  // renderCard(cardData);
+  cardListEl.addItem(createCard(cardData));
   addCardPopup.close();
+  addCardFormElement.reset();
+  addFormValidator._disableSubmitButton();
 }
 
 // Form Listeners
@@ -250,9 +276,10 @@ profileEditButton.addEventListener("click", () => {
 //   closeModal(profileEditModal)
 // );
 
-profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+// already being handled by PopupWithForm
+// profileEditForm.addEventListener("submit", handleProfileEditSubmit);
 
-addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
+// addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
 // cardImageModalCloseButton.addEventListener("click", () =>
 //   closeModal(cardImageModal)
 // );
