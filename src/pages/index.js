@@ -224,33 +224,21 @@ function handleProfileEditSubmit(formData) {
 // }
 
 // function handleAddCardFormSubmit(inputValues) {
-//   // const cardElement = createCard(inputValues);
-//   const cardElement = createCard({
-//     name: inputValues.title,
-//     link: inputValues.url,
-//   });
-//   cardListEl.addItem(cardElement);
-//   addCardPopup.close();
-// }
-
-// function handleAddCardFormSubmit(inputValues) {
-//   const cardElement = createCard({
-//     name: inputValues.title,
-//     link: inputValues.url,
-//   });
+//   const name = inputValues.title;
+//   const link = inputValues.url;
 //   const cardData = { name: name, link: link };
-//   renderCard(cardData);
+//   // renderCard(cardData);
+//   cardListEl.addItem(createCard(cardData));
 //   addCardPopup.close();
-//   e.target.reset();
-//   addFormValidator.disableSubmitButton();
+// addCardFormElement.reset();
+// addFormValidator._disableSubmitButton();
 // }
 
-function handleAddCardFormSubmit(inputValues) {
-  const name = inputValues.title;
-  const link = inputValues.url;
-  const cardData = { name: title, link: url };
-  // renderCard(cardData);
-  cardListEl.addItem(createCard(cardData));
+function handleAddCardFormSubmit({ title, url }) {
+  const newCardData = { name: title, link: url };
+  const newCard = createCard(newCardData);
+  const newCardView = getView(newCard);
+  cardListEl.addItem(newCardView);
   addCardPopup.close();
   addCardFormElement.reset();
   addFormValidator._disableSubmitButton();
