@@ -147,6 +147,7 @@ const cardListEl = new Section(
       cardListEl.addItem(createCard(data));
     },
   },
+
   ".cards__list"
 );
 
@@ -233,6 +234,14 @@ function handleAddCardFormSubmit(inputValues) {
   addCardPopup.close();
   addCardFormElement.reset();
 }
+
+// correct and same as above but using destructuring
+// function handleAddCardFormSubmit({ title, url }) {
+//   const cardData = { name: title, link: url };
+//   cardListEl.addItem(createCard(cardData));
+//   addCardPopup.close();
+//   addCardFormElement.reset();
+// }
 
 // Form Listeners
 
