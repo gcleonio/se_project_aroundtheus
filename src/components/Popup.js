@@ -1,22 +1,20 @@
 export default class Popup {
   constructor(popupSelector) {
     this._popupElement = document.querySelector(popupSelector);
+    this._handleEscClose = this._handleEscClose.bind(this);
   }
+  // _handleEscClose is properly bound in the constructor, ensuring the same function reference is used anytime the event listener is added or removed
 
   open() {
     // opens popup
     this._popupElement.classList.add("modal_opened");
-    document.addEventListener("keydown", (event) => {
-      this._handleEscClose(event);
-    });
+    document.addEventListener("keydown", this._handleEscClose);
   }
 
   close() {
     // closes popup
     this._popupElement.classList.remove("modal_opened");
-    document.removeEventListener("keydown", (event) => {
-      this._handleEscClose(event);
-    });
+    document.removeEventListener("keydown", this._handleEscClose);
   }
 
   _handleEscClose(event) {
