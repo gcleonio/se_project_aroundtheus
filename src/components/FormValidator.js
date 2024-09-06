@@ -14,11 +14,14 @@ export default class FormValidator {
   }
 
   _setEventListeners() {
-    // disable the button on start
+    // disable the button at the start
     this._toggleButtonState();
+    // then create listener for each field
     this._inputEls.forEach((inputEl) => {
       inputEl.addEventListener("input", (e) => {
         this._checkInputValidity(inputEl);
+        // toggle the button state while user types
+        this._toggleButtonState();
       });
     });
   }
