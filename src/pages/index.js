@@ -5,6 +5,7 @@ import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
+import API from "../components/Api.js";
 import "../pages/index.css";
 import {
   config,
@@ -20,7 +21,7 @@ import {
   addNewCardButton,
   addCardModal,
   addCardFormElement,
-  initialCards,
+  // initialCards,
 } from "../utils/constants.js";
 
 const editFormValidator = new FormValidator(config, profileEditForm);
@@ -28,6 +29,15 @@ const addFormValidator = new FormValidator(config, addCardFormElement);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+
+// API
+const api = new API({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "3ae7cc7a-7636-4cd4-8d23-135cd4339ee7",
+    "Content-Type": "application/json",
+  },
+});
 
 // Create New Card Element
 function createCard(item) {
@@ -47,7 +57,19 @@ const cardListEl = new Section(
   ".cards__list"
 );
 
-cardListEl.renderItems();
+// old code to delete before submission
+// cardListEl.renderItems();
+
+// Initial Cards
+api
+  .getInitialCards()
+  .then((cards) => {
+    console.log("Fetched initial cards:", cards);
+    cardListEl.renderItems(cards);
+  })
+  .catch((error) => {
+    console.log("error fetching cards", error);
+  });
 
 // Creates an instance of UserInfo class
 const userInfo = new UserInfo({
