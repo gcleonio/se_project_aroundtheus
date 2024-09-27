@@ -18,14 +18,13 @@ export default class API {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // other methods for working with API...

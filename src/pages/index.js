@@ -48,7 +48,7 @@ function createCard(item) {
 // Add elements to the DOM
 const cardListEl = new Section(
   {
-    items: initialCards,
+    // items: initialCards, //remove since no longer need to show initial hardcoded cards
     renderer: (data) => {
       cardListEl.addItem(createCard(data));
     },
@@ -68,7 +68,7 @@ api
     cardListEl.renderItems(cards);
   })
   .catch((error) => {
-    console.log("error fetching cards", error);
+    console.log("Error fetching cards", error);
   });
 
 // Creates an instance of UserInfo class
