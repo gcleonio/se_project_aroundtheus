@@ -6,7 +6,7 @@ export default class Section {
   }
 
   // public method that renders all elements on the page
-  // remove old since no longer need to show initial hardcoded cards
+  // update renderItems since no longer need to show initial hardcoded cards
   // renderItems() {
   //   this._items.forEach((item) => {
   //     this._renderer(item);

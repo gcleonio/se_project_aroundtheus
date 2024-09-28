@@ -4,6 +4,7 @@ import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithConfirm from "../components/PopupWithConfirm.js";
 import UserInfo from "../components/UserInfo.js";
 import API from "../components/Api.js";
 import "../pages/index.css";
@@ -41,7 +42,12 @@ const api = new API({
 
 // Create New Card Element
 function createCard(item) {
-  const card = new Card(item, "#card-template", handleImageClick);
+  const card = new Card(
+    item,
+    "#card-template",
+    handleImageClick,
+    handleDeleteCard
+  );
   return card.getView();
 }
 
@@ -64,11 +70,13 @@ const cardListEl = new Section(
 api
   .getInitialCards()
   .then((cards) => {
+    // process the result
     console.log("Fetched initial cards:", cards);
     cardListEl.renderItems(cards);
   })
   .catch((error) => {
-    console.log("Error fetching cards", error);
+    // log the error to the console
+    console.error("Error fetching cards", error);
   });
 
 // Creates an instance of UserInfo class
@@ -76,6 +84,29 @@ const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
 });
+
+// Delete modal and methods
+const deleteCardPopup = new PopupWithConfirm({
+  popupSelector: "#delete-confirm-modal",
+});
+deleteCardPopup.setEventListeners();
+
+function handleDeleteCard(cardId, card) {
+  deleteCardPopup.open();
+  deleteCardPopup.handleDeleteConfirm(() => {
+    deleteCardPopup.renderLoading(true);
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        card.remove();
+        deleteCardPopup.close();
+      })
+      .catch(console.error)
+      .finally(() => {
+        deleteCardPopup.renderLoading(false);
+      });
+  });
+}
 
 // Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
 const cardImageModal = new PopupWithImage("#card-image-modal");

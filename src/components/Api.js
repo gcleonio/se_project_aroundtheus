@@ -7,8 +7,10 @@ export default class API {
 
   _handleResponse(res) {
     if (res.ok) {
+      // checks the server response
       return res.json();
     } else {
+      // if server returns an error, reject the promise
       return Promise.reject(`Error ${res.status}`);
     }
   }
@@ -139,6 +141,7 @@ export default class API {
       });
   }
 
+  // Renders cards after user info is received from server
   renderAppData() {
     return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
