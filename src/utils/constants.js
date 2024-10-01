@@ -37,6 +37,10 @@ export const addCardFormElement = addCardModal.querySelector(".modal__form");
 // const cardTemplate =
 //   document.querySelector("#card-template").content.firstElementChild;
 
+// Edit Avatar Modal
+export const avatarForm = document.querySelector("#edit-avatar-modal");
+export const avatarUrlInput = document.querySelector("#avatar-input-url");
+
 // Modal Buttons
 export const profileEditButton = document.querySelector("#profile-edit-button");
 export const profileModalCloseButton = profileEditModal.querySelector(
@@ -46,6 +50,7 @@ export const addCardModalCloseButton = addCardModal.querySelector(
   "#modal-close-button"
 );
 export const addNewCardButton = document.querySelector(".profile__add-button");
+export const editAvatarButton = document.querySelector("#profile-image-pencil");
 
 // export const initialCards = [
 //   {

@@ -4,6 +4,7 @@ export default class UserInfo {
     this._descriptionInfo = document.querySelector(
       userInfo.descriptionSelector
     );
+    this._avatarElement = document.querySelector(userInfo.avatarSelector);
   }
 
   getUserInfo() {
@@ -18,5 +19,10 @@ export default class UserInfo {
     // takes new user data and adds it to page. use for submitting profile edit form
     this._nameInfo.textContent = userInfo.name;
     this._descriptionInfo.textContent = userInfo.description;
+  }
+
+  setProfileAvatar(avatar) {
+    this._avatarElement.src = avatar;
+    this._avatarElement.alt = this._nameInfo.textContent;
   }
 }

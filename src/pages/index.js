@@ -22,14 +22,20 @@ import {
   addNewCardButton,
   addCardModal,
   addCardFormElement,
+  editAvatarButton,
+  avatarForm,
+  avatarUrlInput,
+
   // initialCards,
 } from "../utils/constants.js";
 
 const editFormValidator = new FormValidator(config, profileEditForm);
 const addFormValidator = new FormValidator(config, addCardFormElement);
+const avatarFormValidator = new FormValidator(config, avatarForm);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 
 // API
 const api = new API({
@@ -106,6 +112,35 @@ function handleDeleteCard(cardId, card) {
         deleteCardPopup.renderLoading(false);
       });
   });
+}
+
+// Avatar modal and methods
+const editAvatarPopup = new PopupWithForm(
+  "#edit-avatar-modal",
+  handleAvatarFormSubmit
+);
+editAvatarPopup.setEventListeners();
+
+editAvatarButton.addEventListener("click", () => {
+  editAvatarPopup.open();
+  avatarUrlInput.value = userInfo.avatar;
+  avatarFormValidator.resetValidation();
+});
+
+function handleAvatarFormSubmit(data) {
+  editAvatarPopup.renderLoading(true);
+  api
+    .updateAvatar(data.avatarUrl)
+    .then((formData) => {
+      userInfo.setProfileAvatar(formData.avatar);
+      editAvatarPopup.close();
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      editAvatarPopup.renderLoading(false);
+    });
 }
 
 // Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
