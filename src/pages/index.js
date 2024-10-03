@@ -91,6 +91,24 @@ const userInfo = new UserInfo({
   descriptionSelector: ".profile__description",
 });
 
+// UNIVERSAL FORM FUNCTION
+// universal form function that accepts a request, popup instance and optional loading text
+function handleSubmit(request, popupInstance, loadingText = "Saving...") {
+  // here we change the button text
+  popupInstance.renderLoading(true, loadingText);
+  request()
+    .then(() => {
+      // We need to close only in 'then'
+      popupInstance.close();
+    })
+    // we need to catch possible errors
+    .catch(console.error)
+    // in 'finally' return initial button text back in any case
+    .finally(() => {
+      popupInstance.renderLoading(false);
+    });
+}
+
 // Delete modal and methods
 const deleteCardPopup = new PopupWithConfirm({
   popupSelector: "#delete-confirm-modal",
@@ -114,7 +132,7 @@ function handleDeleteCard(cardId, card) {
   });
 }
 
-// Avatar modal and methods
+// AVATAR MODAL AND METHODS
 const editAvatarPopup = new PopupWithForm(
   "#edit-avatar-modal",
   handleAvatarFormSubmit
@@ -123,24 +141,17 @@ editAvatarPopup.setEventListeners();
 
 editAvatarButton.addEventListener("click", () => {
   editAvatarPopup.open();
-  avatarUrlInput.value = userInfo.avatar;
+  avatarUrlInput.value = userInfo.getUserInfo().avatar;
   avatarFormValidator.resetValidation();
 });
 
 function handleAvatarFormSubmit(data) {
-  editAvatarPopup.renderLoading(true);
-  api
-    .updateAvatar(data.avatarUrl)
-    .then((formData) => {
-      userInfo.setProfileAvatar(formData.avatar);
-      editAvatarPopup.close();
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-    .finally(() => {
-      editAvatarPopup.renderLoading(false);
+  function makeRequest() {
+    return api.updateAvatar(data.link).then(() => {
+      userInfo.setProfileAvatar(data.link);
     });
+  }
+  handleSubmit(makeRequest, editAvatarPopup);
 }
 
 // Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
@@ -151,35 +162,23 @@ function handleImageClick(cardData) {
   cardImageModal.open(cardData);
 }
 
-// Creates an instance of PopupWithForm class for each popup that contains a form, and calls their setEventListeners()
+// ADD CARD MODAL AND METHODS
 const addCardPopup = new PopupWithForm(
   "#add-card-modal",
   handleAddCardFormSubmit
 );
 addCardPopup.setEventListeners();
 
-const editProfilePopup = new PopupWithForm(
-  "#profile-edit-modal",
-  handleProfileEditSubmit
-);
-editProfilePopup.setEventListeners();
-
-// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
-function handleProfileEditSubmit(formData) {
-  userInfo.setUserInfo({
-    name: formData.title,
-    description: formData.description,
-  });
-  editProfilePopup.close();
-}
-
-function handleAddCardFormSubmit(inputValues) {
-  const name = inputValues.title;
-  const link = inputValues.url;
-  const cardData = { name: name, link: link };
-  cardListEl.addItem(createCard(cardData));
-  addCardPopup.close();
-  addCardFormElement.reset();
+function handleAddCardFormSubmit(data) {
+  function makeRequest() {
+    return api
+      .addCard({ name: data.name, link: data.link })
+      .then((cardData) => {
+        cardListEl.addItem(createCard(cardData));
+        addCardFormElement.reset();
+      });
+  }
+  handleSubmit(makeRequest, addCardPopup);
 }
 
 // correct and same as above but using destructuring
@@ -190,13 +189,35 @@ function handleAddCardFormSubmit(inputValues) {
 //   addCardFormElement.reset();
 // }
 
+addNewCardButton.addEventListener("click", () => {
+  addCardPopup.open();
+});
+
+// EDIT PROFILE MODAL AND METHODS
+const editProfilePopup = new PopupWithForm(
+  "#profile-edit-modal",
+  handleProfileEditSubmit
+);
+editProfilePopup.setEventListeners();
+
+// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
+function handleProfileEditSubmit(formData) {
+  function makeRequest() {
+    return api.updateProfileInfo(formData).then((res) => {
+      userInfo.setUserInfo({
+        name: res.title,
+        description: res.description,
+        avatar: res.avatar,
+      });
+      // editProfilePopup.close();
+    });
+  }
+  handleSubmit(makeRequest, editProfilePopup);
+}
+
 profileEditButton.addEventListener("click", () => {
   const currentUserInfo = userInfo.getUserInfo();
   profileTitleInput.value = currentUserInfo.name;
   profileDescriptionInput.value = currentUserInfo.description;
   editProfilePopup.open();
-});
-
-addNewCardButton.addEventListener("click", () => {
-  addCardPopup.open();
 });
