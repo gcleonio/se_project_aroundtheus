@@ -170,12 +170,26 @@ const addCardPopup = new PopupWithForm(
 addCardPopup.setEventListeners();
 
 function handleAddCardFormSubmit(data) {
+  const nameInput = document.querySelector("#new-place-title-input");
+  const linkInput = document.querySelector("#new-place-url-input");
+
+  data.name = nameInput.value;
+  data.link = linkInput.value;
+
   function makeRequest() {
+    console.log("Adding card with:", { name: data.name, link: data.link });
+    if (!data.name || !data.link) {
+      console.error("Name or link is missing");
+      return;
+    }
     return api
       .addCard({ name: data.name, link: data.link })
       .then((cardData) => {
         cardListEl.addItem(createCard(cardData));
         addCardFormElement.reset();
+      })
+      .catch((err) => {
+        console.error("Failed to add card:", err);
       });
   }
   handleSubmit(makeRequest, addCardPopup);
