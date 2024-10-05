@@ -3,10 +3,6 @@ export default class Popup {
     this._popupElement = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     // _handleEscClose is properly bound in the constructor, ensuring the same function reference is used anytime the event listener is added or removed
-    this._submitButton = this._popupElement.querySelector(
-      ".modal__save-button"
-    );
-    this._submitButtonText = this._submitButton.textContent;
   }
 
   open() {
@@ -45,13 +41,5 @@ export default class Popup {
         this.close();
       }
     });
-  }
-
-  renderLoading(isLoading) {
-    if (isLoading) {
-      this._submitButton.textContent = "Saving...";
-    } else {
-      this._submitButton.textContent = this._submitButtonText;
-    }
   }
 }
