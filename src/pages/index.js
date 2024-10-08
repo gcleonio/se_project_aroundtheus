@@ -147,8 +147,8 @@ editAvatarButton.addEventListener("click", () => {
 
 function handleAvatarFormSubmit(data) {
   function makeRequest() {
-    return api.updateAvatar(data.link).then(() => {
-      userInfo.setProfileAvatar(data.link);
+    return api.updateAvatar(data.url).then(() => {
+      userInfo.setProfileAvatar(data.url);
     });
   }
   handleSubmit(makeRequest, editAvatarPopup);
@@ -173,17 +173,17 @@ function handleAddCardFormSubmit(data) {
   const nameInput = document.querySelector("#new-place-title-input");
   const linkInput = document.querySelector("#new-place-url-input");
 
-  data.name = nameInput.value;
-  data.link = linkInput.value;
+  data.title = nameInput.value;
+  data.url = linkInput.value;
 
   function makeRequest() {
-    console.log("Adding card with:", { name: data.name, link: data.link });
-    if (!data.name || !data.link) {
+    console.log("Adding card with:", { name: data.title, link: data.url });
+    if (!data.title || !data.url) {
       console.error("Name or link is missing");
       return;
     }
     return api
-      .addCard({ name: data.name, link: data.link })
+      .addCard({ name: data.title, link: data.url })
       .then((cardData) => {
         cardListEl.addItem(createCard(cardData));
         addCardFormElement.reset();
