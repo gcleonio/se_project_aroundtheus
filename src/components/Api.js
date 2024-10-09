@@ -36,14 +36,14 @@ export default class API {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ name, link }),
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   commented out below, because this resolves Promise, and calling function (makeRequest) in index.js not able to access return value
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // DELETE /cards/:cardId – Delete a card
@@ -115,14 +115,13 @@ export default class API {
         name: title,
         about: description,
       }),
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // PATCH /users/me/avatar – Update avatar
@@ -131,14 +130,13 @@ export default class API {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ avatar: url }),
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // Renders cards after user info is received from server
