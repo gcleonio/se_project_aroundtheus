@@ -36,8 +36,9 @@ export default class API {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ name, link }),
-    }).then(this._handleResponse);
-    //   commented out below, because this resolves Promise, and calling function (makeRequest) in index.js not able to access return value
+    }).then(this._handleResponse); // This returns the API response as JSON.
+
+    //   commented out below, because since there is no 'return', the value returned from 'addCard' is essentially 'undefined' which would pass 'undefined' to the calling function
     //   .then((result) => {
     //     console.log(result);
     //   })
