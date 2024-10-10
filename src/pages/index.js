@@ -143,12 +143,15 @@ editAvatarButton.addEventListener("click", () => {
   editAvatarPopup.open();
   avatarUrlInput.value = userInfo.getUserInfo().avatar;
   avatarFormValidator.resetValidation();
+  // console.log(avatarUrlInput.value);  // wrong console.log for checking if there is a url value
 });
 
 function handleAvatarFormSubmit(data) {
+  // console.log this inputValue since this is the one going to the api request
+  console.log(data);
   function makeRequest() {
     return api.updateAvatar(data.url).then(() => {
-      userInfo.setProfileAvatar(data.url);
+      userInfo.setProfileAvatar(data.link);
     });
   }
   handleSubmit(makeRequest, editAvatarPopup);
@@ -170,11 +173,12 @@ const addCardPopup = new PopupWithForm(
 addCardPopup.setEventListeners();
 
 function handleAddCardFormSubmit(data) {
-  const nameInput = document.querySelector("#new-place-title-input");
-  const linkInput = document.querySelector("#new-place-url-input");
+  console.log(data);
+  // const nameInput = document.querySelector("#new-place-title-input");
+  // const linkInput = document.querySelector("#new-place-url-input");
 
-  data.title = nameInput.value;
-  data.url = linkInput.value;
+  // data.title = nameInput.value;
+  // data.url = linkInput.value;
 
   function makeRequest() {
     console.log("Adding card with:", { name: data.title, link: data.url });
