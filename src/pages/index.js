@@ -89,6 +89,7 @@ api
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
+  avatarSelector: ".profile__image",
 });
 
 // UNIVERSAL FORM FUNCTION
@@ -150,8 +151,9 @@ function handleAvatarFormSubmit(data) {
   // console.log this inputValue since this is the one going to the api request
   console.log(data);
   function makeRequest() {
-    return api.updateAvatar(data.url).then(() => {
-      userInfo.setProfileAvatar(data.link);
+    return api.updateAvatar(data.link).then((res) => {
+      console.log(res);
+      userInfo.setProfileAvatar(res.avatar);
     });
   }
   handleSubmit(makeRequest, editAvatarPopup);
@@ -220,11 +222,15 @@ editProfilePopup.setEventListeners();
 
 // since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
 function handleProfileEditSubmit(formData) {
+  // console.log(formData);
   function makeRequest() {
+    // using the response from the API (res) to set the user info
     return api.updateProfileInfo(formData).then((res) => {
+      //res is an object with name, about and avatar properties, so you have to use it while setting the user info:
+      // console.log(res);
       userInfo.setUserInfo({
-        name: res.title,
-        description: res.description,
+        name: res.name,
+        description: res.about,
         avatar: res.avatar,
       });
       // editProfilePopup.close();
