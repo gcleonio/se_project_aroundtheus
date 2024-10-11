@@ -46,6 +46,9 @@ const api = new API({
   },
 });
 
+//For testing purposes, you can assign api to window.api in your JavaScript setup to make it accessible globally
+window.api = api;
+
 // Create New Card Element
 function createCard(item) {
   const card = new Card(
@@ -90,6 +93,24 @@ const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
   avatarSelector: ".profile__image",
+});
+
+// Ensure that user's profile avatar, name, and description persist correctly on page refresh
+// api.getUserInfo() call should be used to set the user info in your UI elements (e.g., text fields or image src attributes)
+document.addEventListener("DOMContentLoaded", () => {
+  api
+    .getUserInfo()
+    .then((userData) => {
+      console.log("User Data:", userData);
+      // Update UI with user data
+      document.querySelector(".profile__image").src = userData.avatar;
+      document.querySelector(".profile__title").textContent = userData.name;
+      document.querySelector(".profile__description").textContent =
+        userData.about;
+    })
+    .catch((error) => {
+      console.error("Error fetching user data", error);
+    });
 });
 
 // UNIVERSAL FORM FUNCTION
@@ -142,17 +163,17 @@ editAvatarPopup.setEventListeners();
 
 editAvatarButton.addEventListener("click", () => {
   editAvatarPopup.open();
-  avatarUrlInput.value = userInfo.getUserInfo().avatar;
   avatarFormValidator.resetValidation();
-  // console.log(avatarUrlInput.value);  // wrong console.log for checking if there is a url value
 });
 
 function handleAvatarFormSubmit(data) {
   // console.log this inputValue since this is the one going to the api request
   console.log(data);
   function makeRequest() {
+    //data has 'link' property. need to use link property on api call
     return api.updateAvatar(data.link).then((res) => {
       console.log(res);
+      // using avatar property of res object to set profile avatar
       userInfo.setProfileAvatar(res.avatar);
     });
   }
