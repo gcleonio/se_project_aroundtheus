@@ -52,14 +52,13 @@ export default class API {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // PUT /cards/:cardId/likes – Like a card
@@ -67,14 +66,13 @@ export default class API {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // DELETE /cards/:cardId/likes – Dislike a card
@@ -82,14 +80,13 @@ export default class API {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // User routes
@@ -97,14 +94,13 @@ export default class API {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-    })
-      .then(this._handleResponse)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._handleResponse);
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }
 
   // PATCH /users/me – Update your profile information
