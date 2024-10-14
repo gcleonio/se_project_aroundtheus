@@ -78,6 +78,8 @@ export default class Card {
     // set event listeners
     this._setEventListeners();
 
+    this.setButtonState();
+
     // return the card
     return this._cardElement;
   }
