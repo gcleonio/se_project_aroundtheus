@@ -1,11 +1,19 @@
 export default class Card {
-  constructor(cardData, cardSelector, handleImageClick, handleDeleteCard) {
+  constructor(
+    cardData,
+    cardSelector,
+    handleImageClick,
+    handleDeleteCard,
+    handleLikeIcon
+  ) {
     this._name = cardData.name;
     this._link = cardData.link;
     this._id = cardData._id;
+    this._isLiked = cardData.isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteCard = handleDeleteCard;
+    this._handleLikeIcon = handleLikeIcon;
   }
 
   // _setEventListeners method that sets the necessary event listeners
@@ -36,7 +44,7 @@ export default class Card {
       });
   }
 
-  // private methods for delete and like button handlers
+  // private method for like button handler
   _handleLikeIcon() {
     this._cardElement
       .querySelector(".card__like-button")
@@ -47,6 +55,12 @@ export default class Card {
   //   this._cardElement.remove();
   //   this._cardElement = null;
   // }
+
+  setButtonState() {
+    if (this._isLiked) {
+      this._handleLikeIcon();
+    }
+  }
 
   // one public method that returns fully functional card element populated with appropriate data
   getView() {

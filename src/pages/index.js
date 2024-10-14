@@ -55,7 +55,8 @@ function createCard(item) {
     item,
     "#card-template",
     handleImageClick,
-    handleDeleteCard
+    handleDeleteCard,
+    handleLikeIcon
   );
   return card.getView();
 }
@@ -129,6 +130,27 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
     .finally(() => {
       popupInstance.renderLoading(false);
     });
+}
+
+// Like and unlike
+function handleLikeIcon(card) {
+  if (card.isLiked) {
+    api
+      .likeCard(card.id)
+      .then(() => {
+        card.isLiked = true;
+        card.handleLikeIcon();
+      })
+      .catch(console.error);
+  } else {
+    api
+      .unlikeCard(card.id)
+      .then(() => {
+        card.isLiked = false;
+        card.handleLikeIcon();
+      })
+      .catch(console.error);
+  }
 }
 
 // Delete modal and methods
