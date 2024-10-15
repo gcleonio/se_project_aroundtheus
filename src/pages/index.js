@@ -139,6 +139,7 @@ function handleLikeIcon(card) {
     api
       .likeCard(card._id) //card._id is the id of the card
       .then(() => {
+        console.log(card);
         card.isLiked = true;
         card.setButtonState();
       })
@@ -153,6 +154,30 @@ function handleLikeIcon(card) {
       .catch(console.error);
   }
 }
+
+// // Like and unlike
+// function handleLikeIcon(card) {
+//   if (!card._isLiked) {
+//     // if card is not liked, like it
+//     api
+//       .likeCard(card) //card._id is the id of the card
+//       .then(() => {
+//         console.log(cardID);
+//         console.log(card);
+//         card.isLiked = true;
+//         card.setButtonState();
+//       })
+//       .catch(console.error);
+//   } else {
+//     api
+//       .unlikeCard(cardID) // card._id is the id of the card
+//       .then(() => {
+//         card.isLiked = false;
+//         card.setButtonState();
+//       })
+//       .catch(console.error);
+//   }
+// }
 
 // Delete modal and methods
 const deleteCardPopup = new PopupWithConfirm({

@@ -150,7 +150,7 @@
 
     <!-- Editing avatar modal -->
     <div class="modal" id="edit-avatar-modal">
-      <div class="modal__container">
+      <div class="modal__container" id="edit-avatar-modal-container">
         <button class="modal__close-button" id="modal-close-button"></button>
         <p class="modal__heading">Change profile picture</p>
         <form class="modal__form" id="edit-avatar-form">
@@ -178,11 +178,19 @@
 
     <!-- Deleting a card modal -->
     <div class="modal" id="delete-confirm-modal">
-      <div class="modal__container">
+      <div class="modal__container" id="delete-confirm-container">
         <button class="modal__close-button"></button>
-        <p class="modal__heading">Are you sure?</p>
+        <p class="modal__heading" id="delete-confirm-modal-heading">
+          Are you sure?
+        </p>
         <form class="modal__form" id="delete-card-form">
-          <button class="modal__save-button" type="submit">Yes</button>
+          <button
+            class="modal__save-button"
+            id="delete-confirm-button"
+            type="submit"
+          >
+            Yes
+          </button>
         </form>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteCard = handleDeleteCard;
-    this._handleLikeClick = handleLikeIcon; // changed handleLikeIcon to handleLikeClick because it was making an error because you already have a method called handleLikeIcon
+    this._handleLikeClick = handleLikeIcon; // changed this._handleLikeIcon to this._handleLikeClick because it was making an error because you already have a method called _handleLikeIcon
   }
 
   // _setEventListeners method that sets the necessary event listeners
@@ -22,7 +22,7 @@ export default class Card {
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeClick(this); // changed to handleLikeClick, sends the needed reference to handleLikeClick
+        this._handleLikeClick(this); // changed to _handleLikeClick, this sends the card data reference to the handleLikeIcon function to call api.likeCard or api.unlikeCard
       });
 
     // card delete button
@@ -44,8 +44,9 @@ export default class Card {
       });
   }
 
-  // private method for like button handler
-  _handleLikeClick() {
+  // private method for like button handler, not the same as in constructor
+  _handleLikeIcon() {
+    //should not be the same name as in constructor because it was being defined twice - once in the constructor and once as a method in the class. one was overwriting the other.
     this._cardElement
       .querySelector(".card__like-button")
       .classList.toggle("card__like-button_active");
@@ -58,7 +59,7 @@ export default class Card {
 
   setButtonState() {
     if (this._isLiked) {
-      this._handleLikeClick();
+      this._handleLikeIcon(); // use card method, not the one from the constructor
     }
   }
 
