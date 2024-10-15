@@ -134,20 +134,21 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
 
 // Like and unlike
 function handleLikeIcon(card) {
-  if (card.isLiked) {
+  if (!card._isLiked) {
+    // if card is not liked, like it
     api
-      .likeCard(card.id)
+      .likeCard(card._id) //card._id is the id of the card
       .then(() => {
         card.isLiked = true;
-        card.handleLikeIcon();
+        card.setButtonState();
       })
       .catch(console.error);
   } else {
     api
-      .unlikeCard(card.id)
+      .unlikeCard(card._id) // card._id is the id of the card
       .then(() => {
         card.isLiked = false;
-        card.handleLikeIcon();
+        card.setButtonState();
       })
       .catch(console.error);
   }
@@ -159,14 +160,14 @@ const deleteCardPopup = new PopupWithConfirm({
 });
 deleteCardPopup.setEventListeners();
 
-function handleDeleteCard(cardId, card) {
+function handleDeleteCard(cardID, card) {
   deleteCardPopup.open();
   deleteCardPopup.handleDeleteConfirm(() => {
     deleteCardPopup.renderLoading(true);
     api
-      .deleteCard(cardId)
+      .deleteCard(cardID)
       .then(() => {
-        // card.remove();
+        card.handleDeleteCard();
         deleteCardPopup.close();
       })
       .catch(console.error)

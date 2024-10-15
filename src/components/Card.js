@@ -13,7 +13,7 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteCard = handleDeleteCard;
-    this._handleLikeIcon = handleLikeIcon;
+    this._handleLikeClick = handleLikeIcon; // changed handleLikeIcon to handleLikeClick because it was making an error because you already have a method called handleLikeIcon
   }
 
   // _setEventListeners method that sets the necessary event listeners
@@ -22,7 +22,7 @@ export default class Card {
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        this._handleLikeIcon();
+        this._handleLikeClick(this); // changed to handleLikeClick, sends the needed reference to handleLikeClick
       });
 
     // card delete button
@@ -45,20 +45,20 @@ export default class Card {
   }
 
   // private method for like button handler
-  _handleLikeIcon() {
+  _handleLikeClick() {
     this._cardElement
       .querySelector(".card__like-button")
       .classList.toggle("card__like-button_active");
   }
 
-  // _handleDeleteCard() {
-  //   this._cardElement.remove();
-  //   this._cardElement = null;
-  // }
+  handleDeleteCard() {
+    this._cardElement.remove();
+    this._cardElement = null;
+  }
 
   setButtonState() {
     if (this._isLiked) {
-      this._handleLikeIcon();
+      this._handleLikeClick();
     }
   }
 
