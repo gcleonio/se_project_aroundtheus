@@ -19,11 +19,9 @@ export default class Card {
   // _setEventListeners method that sets the necessary event listeners
   _setEventListeners() {
     // card like button
-    this._cardElement
-      .querySelector(".card__like-button")
-      .addEventListener("click", () => {
-        this._handleLikeClick(this); // changed to _handleLikeClick, this sends the card data reference to the handleLikeIcon function to call api.likeCard or api.unlikeCard
-      });
+    this._likeButton.addEventListener("click", () => {
+      this._handleLikeClick(this); // changed to _handleLikeClick, this sends the needed reference to call api.likeCard or api.unlikeCard
+    });
 
     // card delete button
     // this._cardElement
@@ -47,9 +45,7 @@ export default class Card {
   // private method for like button handler, not the same as in constructor
   _handleLikeIcon() {
     //should not be the same name as in constructor because it was being defined twice - once in the constructor and once as a method in the class. one was overwriting the other.
-    this._cardElement
-      .querySelector(".card__like-button")
-      .classList.toggle("card__like-button_active");
+    this._likeButton.classList.toggle("card__like-button_active");
   }
 
   handleDeleteCard() {
@@ -75,6 +71,7 @@ export default class Card {
     this._cardElement.querySelector(".card__image").alt = this._name;
     this._cardElement.querySelector(".card__title").textContent = this._name;
     this._trashButton = this._cardElement.querySelector(".card__delete-button");
+    this._likeButton = this._cardElement.querySelector(".card__like-button");
 
     // set event listeners
     this._setEventListeners();

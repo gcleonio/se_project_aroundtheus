@@ -123,6 +123,8 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
     .then(() => {
       // We need to close only in 'then'
       popupInstance.close();
+      // Disable submit button only in a 'then' block after a successful response to be able to click it again if there is a server error.
+      resetValidation();
     })
     // we need to catch possible errors
     .catch(console.error)
@@ -134,7 +136,7 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
 
 // Like and unlike
 function handleLikeIcon(card) {
-  if (!card._isLiked) {
+  if (!card.isLiked) {
     // if card is not liked, like it
     api
       .likeCard(card._id) //card._id is the id of the card
@@ -262,9 +264,6 @@ function handleAddCardFormSubmit(data) {
       .then((cardData) => {
         cardListEl.addItem(createCard(cardData));
         addCardFormElement.reset();
-      })
-      .catch((err) => {
-        console.error("Failed to add card:", err);
       });
   }
   handleSubmit(makeRequest, addCardPopup);

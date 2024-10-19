@@ -7,7 +7,7 @@ export const config = {
   submitButtonSelector: ".modal__save-button",
   inactiveButtonClass: "modal__save-button_disabled",
   inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible",
+  errorClass: "modal__error_visible", //Should this be .modal__error not .modal__error_visible ?
 };
 
 // Form fields filled with information from profile page
