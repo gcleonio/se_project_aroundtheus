@@ -49,7 +49,7 @@ export default class FormValidator {
   _checkInputValidity(inputEl) {
     if (!inputEl.validity.valid) {
       return this._showInputError(inputEl);
-    }
+    } // don't need 'else', if you have 'return' (it stops the code)
     this._hideInputError(inputEl);
   }
 

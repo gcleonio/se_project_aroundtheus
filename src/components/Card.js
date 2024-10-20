@@ -9,7 +9,7 @@ export default class Card {
     this._name = cardData.name;
     this._link = cardData.link;
     this._id = cardData._id;
-    this._isLiked = cardData.isLiked;
+    this.isLiked = cardData.isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteCard = handleDeleteCard;
@@ -42,20 +42,31 @@ export default class Card {
       });
   }
 
-  // private method for like button handler, not the same as in constructor
-  _handleLikeIcon() {
-    //should not be the same name as in constructor because it was being defined twice - once in the constructor and once as a method in the class. one was overwriting the other.
-    this._likeButton.classList.toggle("card__like-button_active");
-  }
+  // // advised against using toggle functionality to change icon
+  // // private method for like button handler, not the same as in constructor
+  // _handleLikeIcon() {
+  //   //should not be the same name as in constructor because it was being defined twice - once in the constructor and once as a method in the class. one was overwriting the other.
+  //   this._likeButton.classList.toggle("card__like-button_active");
+  // }
 
   handleDeleteCard() {
     this._cardElement.remove();
     this._cardElement = null;
   }
 
+  // You shouldn't set the value of isLiked outside of the card, that goes against OOP.
+  // You can instead create a method on your card class that does both, sets the _isLiked new value and calls the setButtonState
+  setIsLiked(isLiked) {
+    this.isLiked = isLiked;
+    this.setButtonState();
+  }
+
   setButtonState() {
-    if (this._isLiked) {
-      this._handleLikeIcon(); // use card method, not the one from the constructor
+    if (this.isLiked) {
+      // this._handleLikeIcon(); // use card method, not the one from the constructor
+      this._likeButton.classList.add("card__like-button_active");
+    } else {
+      this._likeButton.classList.remove("card__like-button_active");
     }
   }
 

@@ -124,7 +124,7 @@ function handleSubmit(request, popupInstance, loadingText = "Saving...") {
       // We need to close only in 'then'
       popupInstance.close();
       // Disable submit button only in a 'then' block after a successful response to be able to click it again if there is a server error.
-      resetValidation();
+      popupInstance.resetValidation();
     })
     // we need to catch possible errors
     .catch(console.error)
@@ -142,16 +142,18 @@ function handleLikeIcon(card) {
       .likeCard(card._id) //card._id is the id of the card
       .then(() => {
         console.log(card);
-        card.isLiked = true;
-        card.setButtonState();
+        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
+        // card.isLiked = true;
+        card.setIsLiked(true);
       })
       .catch(console.error);
   } else {
     api
       .unlikeCard(card._id) // card._id is the id of the card
       .then(() => {
-        card.isLiked = false;
-        card.setButtonState();
+        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
+        // card.isLiked = false;
+        card.setIsLiked(false);
       })
       .catch(console.error);
   }
