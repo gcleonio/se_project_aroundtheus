@@ -103,11 +103,17 @@ document.addEventListener("DOMContentLoaded", () => {
     .getUserInfo()
     .then((userData) => {
       console.log("User Data:", userData);
+
       // Update UI with user data
-      document.querySelector(".profile__image").src = userData.avatar;
-      document.querySelector(".profile__title").textContent = userData.name;
-      document.querySelector(".profile__description").textContent =
-        userData.about;
+      // document.querySelector(".profile__image").src = userData.avatar;
+      // document.querySelector(".profile__title").textContent = userData.name;
+      // document.querySelector(".profile__description").textContent =
+      //   userData.about;
+
+      // use UserInfo to set entire profile data (including the avatar)
+      // userInfo.getUserInfo();
+      userInfo.setProfileAvatar();
+      userInfo.setUserInfo();
     })
     .catch((error) => {
       console.error("Error fetching user data", error);
