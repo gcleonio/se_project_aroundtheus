@@ -209,7 +209,8 @@ function handleDeleteCard(cardID, card) {
 // AVATAR MODAL AND METHODS
 const editAvatarPopup = new PopupWithForm(
   "#edit-avatar-modal",
-  handleAvatarFormSubmit
+  handleAvatarFormSubmit,
+  avatarFormValidator
 );
 editAvatarPopup.setEventListeners();
 
@@ -243,7 +244,8 @@ function handleImageClick(cardData) {
 // ADD CARD MODAL AND METHODS
 const addCardPopup = new PopupWithForm(
   "#add-card-modal",
-  handleAddCardFormSubmit
+  handleAddCardFormSubmit,
+  addFormValidator
 );
 addCardPopup.setEventListeners();
 
@@ -286,7 +288,8 @@ addNewCardButton.addEventListener("click", () => {
 // EDIT PROFILE MODAL AND METHODS
 const editProfilePopup = new PopupWithForm(
   "#profile-edit-modal",
-  handleProfileEditSubmit
+  handleProfileEditSubmit,
+  editFormValidator
 );
 editProfilePopup.setEventListeners();
 

@@ -135,6 +135,7 @@
 
 .modal__save-button_disabled {
   opacity: 20%;
+  cursor: not-allowed;
 }
 
 .modal__input_type_error {
