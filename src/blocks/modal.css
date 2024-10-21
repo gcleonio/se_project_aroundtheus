@@ -138,6 +138,11 @@
   cursor: not-allowed;
 }
 
+.modal__save-button_disabled:hover {
+  opacity: 20%;
+  cursor: not-allowed;
+}
+
 .modal__input_type_error {
 }
 
