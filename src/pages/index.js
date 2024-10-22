@@ -111,9 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
       //   userData.about;
 
       // use UserInfo to set entire profile data (including the avatar)
-      // userInfo.getUserInfo();
-      userInfo.setProfileAvatar();
-      userInfo.setUserInfo();
+      // ensure setUserInfo and setProfileAvatar methods are being passed the correct data
+      userInfo.setProfileAvatar(userData.avatar);
+      userInfo.setUserInfo(userData);
     })
     .catch((error) => {
       console.error("Error fetching user data", error);
