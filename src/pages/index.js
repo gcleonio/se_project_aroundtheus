@@ -306,11 +306,12 @@ function handleProfileEditSubmit(formData) {
   function makeRequest() {
     // using the response from the API (res) to set the user info
     return api.updateProfileInfo(formData).then((res) => {
-      //res is an object with name, about and avatar properties, so you have to use it while setting the user info:
-      // console.log(res);
+      // res is a ready object with name, about and avatar properties, so you have to use it while setting the user info:
+      console.log(res);
+      console.log(formData);
       userInfo.setUserInfo({
         name: res.name,
-        description: res.about,
+        about: res.about,
         avatar: res.avatar,
       });
       // editProfilePopup.close();
