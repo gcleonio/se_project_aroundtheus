@@ -135,6 +135,12 @@
 
 .modal__save-button_disabled {
   opacity: 20%;
+  cursor: not-allowed;
+}
+
+.modal__save-button_disabled:hover {
+  opacity: 20%;
+  cursor: not-allowed;
 }
 
 .modal__input_type_error {
@@ -142,6 +148,26 @@
 
 .modal__label {
   position: relative;
+}
+
+#delete-confirm-modal-heading {
+  margin: 0;
+}
+
+#delete-confirm-container {
+  width: 394px;
+  height: 145px;
+  /* padding: 34px 36px 36px; */
+}
+
+/* #delete-confirm-button {
+  height: 50px;
+  width: 358px;
+} */
+
+#edit-avatar-modal-container {
+  height: 272px;
+  width: 430px;
 }
 
 .modal__error {

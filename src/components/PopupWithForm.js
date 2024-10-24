@@ -1,10 +1,19 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, handleFormSubmit) {
+  constructor(popupSelector, handleFormSubmit, formValidator) {
     super(popupSelector);
     this._popupForm = this._popupElement.querySelector(".modal__form");
     this._handleFormSubmit = handleFormSubmit;
+    this._submitButton = this._popupElement.querySelector(
+      ".modal__save-button"
+    );
+    this._submitButtonText = this._submitButton.textContent;
+    this._formValidator = formValidator; // Store the formValidator instance
+  }
+
+  resetValidation() {
+    this._formValidator.resetValidation(); // Call resetValidation on the form validator
   }
 
   _getInputValues() {
@@ -28,5 +37,15 @@ export default class PopupWithForm extends Popup {
       // this._popupForm.reset();
       this._handleFormSubmit(this._getInputValues());
     });
+  }
+
+  // add 2 params: isLoading and loadingText with a default text
+  renderLoading(isLoading, loadingText = "Saving...") {
+    if (isLoading) {
+      this._submitButton.textContent = loadingText;
+    } else {
+      // here we return back the initial text
+      this._submitButton.textContent = this._submitButtonText;
+    }
   }
 }
