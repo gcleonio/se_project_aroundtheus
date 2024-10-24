@@ -222,7 +222,8 @@ editAvatarPopup.setEventListeners();
 
 editAvatarButton.addEventListener("click", () => {
   editAvatarPopup.open();
-  avatarFormValidator.resetValidation();
+  // not needed here because resetting validation in handleSubmit
+  // avatarFormValidator.resetValidation();
 });
 
 function handleAvatarFormSubmit(data) {
