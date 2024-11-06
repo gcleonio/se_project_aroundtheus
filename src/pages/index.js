@@ -4,7 +4,9 @@ import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithConfirm from "../components/PopupWithConfirm.js";
 import UserInfo from "../components/UserInfo.js";
+import API from "../components/Api.js";
 import "../pages/index.css";
 import {
   config,
@@ -20,25 +22,49 @@ import {
   addNewCardButton,
   addCardModal,
   addCardFormElement,
-  initialCards,
+  editAvatarButton,
+  avatarForm,
+  avatarUrlInput,
+
+  // initialCards,
 } from "../utils/constants.js";
 
 const editFormValidator = new FormValidator(config, profileEditForm);
 const addFormValidator = new FormValidator(config, addCardFormElement);
+const avatarFormValidator = new FormValidator(config, avatarForm);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
+
+// API
+const api = new API({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "3ae7cc7a-7636-4cd4-8d23-135cd4339ee7",
+    "Content-Type": "application/json",
+  },
+});
+
+//For testing purposes, you can assign api to window.api in your JavaScript setup to make it accessible globally
+window.api = api;
 
 // Create New Card Element
 function createCard(item) {
-  const card = new Card(item, "#card-template", handleImageClick);
+  const card = new Card(
+    item,
+    "#card-template",
+    handleImageClick,
+    handleDeleteCard,
+    handleLikeIcon
+  );
   return card.getView();
 }
 
 // Add elements to the DOM
 const cardListEl = new Section(
   {
-    items: initialCards,
+    // items: initialCards, //remove since no longer need to show initial hardcoded cards
     renderer: (data) => {
       cardListEl.addItem(createCard(data));
     },
@@ -47,13 +73,172 @@ const cardListEl = new Section(
   ".cards__list"
 );
 
-cardListEl.renderItems();
+// old code to delete before submission
+// cardListEl.renderItems();
+
+// Initial Cards
+api
+  .getInitialCards()
+  .then((cards) => {
+    // process the result
+    console.log("Fetched initial cards:", cards);
+    cardListEl.renderItems(cards);
+  })
+  .catch((error) => {
+    // log the error to the console
+    console.error("Error fetching cards", error);
+  });
 
 // Creates an instance of UserInfo class
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
+  avatarSelector: ".profile__image",
 });
+
+// Ensure that user's profile avatar, name, and description persist correctly on page refresh
+// api.getUserInfo() call should be used to set the user info in your UI elements (e.g., text fields or image src attributes)
+document.addEventListener("DOMContentLoaded", () => {
+  api
+    .getUserInfo()
+    .then((userData) => {
+      console.log("User Data:", userData);
+
+      // Update UI with user data
+      // document.querySelector(".profile__image").src = userData.avatar;
+      // document.querySelector(".profile__title").textContent = userData.name;
+      // document.querySelector(".profile__description").textContent =
+      //   userData.about;
+
+      // use UserInfo to set entire profile data (including the avatar)
+      // ensure setUserInfo and setProfileAvatar methods are being passed the correct data
+      userInfo.setProfileAvatar(userData.avatar);
+      userInfo.setUserInfo(userData);
+    })
+    .catch((error) => {
+      console.error("Error fetching user data", error);
+    });
+});
+
+// UNIVERSAL FORM FUNCTION
+// universal form function that accepts a request, popup instance and optional loading text
+function handleSubmit(request, popupInstance, loadingText = "Saving...") {
+  // here we change the button text
+  popupInstance.renderLoading(true, loadingText);
+  request()
+    .then(() => {
+      // We need to close only in 'then'
+      popupInstance.close();
+      // Disable submit button only in a 'then' block after a successful response to be able to click it again if there is a server error.
+      popupInstance.resetValidation();
+    })
+    // we need to catch possible errors
+    .catch(console.error)
+    // in 'finally' return initial button text back in any case
+    .finally(() => {
+      popupInstance.renderLoading(false);
+    });
+}
+
+// Like and unlike
+function handleLikeIcon(card) {
+  if (!card.isLiked) {
+    // if card is not liked, like it
+    api
+      .likeCard(card._id) //card._id is the id of the card
+      .then(() => {
+        console.log(card);
+        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
+        // card.isLiked = true;
+        card.setIsLiked(true);
+      })
+      .catch(console.error);
+  } else {
+    api
+      .unlikeCard(card._id) // card._id is the id of the card
+      .then(() => {
+        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
+        // card.isLiked = false;
+        card.setIsLiked(false);
+      })
+      .catch(console.error);
+  }
+}
+
+// // Like and unlike
+// function handleLikeIcon(card) {
+//   if (!card._isLiked) {
+//     // if card is not liked, like it
+//     api
+//       .likeCard(card) //card._id is the id of the card
+//       .then(() => {
+//         console.log(cardID);
+//         console.log(card);
+//         card.isLiked = true;
+//         card.setButtonState();
+//       })
+//       .catch(console.error);
+//   } else {
+//     api
+//       .unlikeCard(cardID) // card._id is the id of the card
+//       .then(() => {
+//         card.isLiked = false;
+//         card.setButtonState();
+//       })
+//       .catch(console.error);
+//   }
+// }
+
+// Delete modal and methods
+const deleteCardPopup = new PopupWithConfirm({
+  popupSelector: "#delete-confirm-modal",
+});
+deleteCardPopup.setEventListeners();
+
+function handleDeleteCard(cardID, card) {
+  deleteCardPopup.open();
+  deleteCardPopup.handleDeleteConfirm(() => {
+    deleteCardPopup.renderLoading(true);
+    api
+      .deleteCard(cardID)
+      .then(() => {
+        card.handleDeleteCard();
+        deleteCardPopup.close();
+      })
+      .catch(console.error)
+      .finally(() => {
+        deleteCardPopup.renderLoading(false);
+      });
+  });
+}
+
+// AVATAR MODAL AND METHODS
+const editAvatarPopup = new PopupWithForm(
+  "#edit-avatar-modal",
+  handleAvatarFormSubmit,
+  avatarFormValidator
+);
+editAvatarPopup.setEventListeners();
+
+editAvatarButton.addEventListener("click", () => {
+  editAvatarPopup.open();
+  // not needed here because resetting validation in handleSubmit
+  // avatarFormValidator.resetValidation();
+});
+
+function handleAvatarFormSubmit(data) {
+  // console.log this inputValue since this is the one going to the api request
+  console.log(data);
+  function makeRequest() {
+    //data has 'link' property. need to use link property on api call
+    return api.updateAvatar(data.link).then((res) => {
+      console.log(res);
+      // using avatar property of res object to set profile avatar
+      userInfo.setProfileAvatar(res.avatar);
+    });
+  }
+  handleSubmit(makeRequest, editAvatarPopup);
+}
 
 // Creates an instance of PopupWithImage class and calls its parent's setEventListeners()
 const cardImageModal = new PopupWithImage("#card-image-modal");
@@ -63,35 +248,36 @@ function handleImageClick(cardData) {
   cardImageModal.open(cardData);
 }
 
-// Creates an instance of PopupWithForm class for each popup that contains a form, and calls their setEventListeners()
+// ADD CARD MODAL AND METHODS
 const addCardPopup = new PopupWithForm(
   "#add-card-modal",
-  handleAddCardFormSubmit
+  handleAddCardFormSubmit,
+  addFormValidator
 );
 addCardPopup.setEventListeners();
 
-const editProfilePopup = new PopupWithForm(
-  "#profile-edit-modal",
-  handleProfileEditSubmit
-);
-editProfilePopup.setEventListeners();
+function handleAddCardFormSubmit(data) {
+  console.log(data);
+  // const nameInput = document.querySelector("#new-place-title-input");
+  // const linkInput = document.querySelector("#new-place-url-input");
 
-// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
-function handleProfileEditSubmit(formData) {
-  userInfo.setUserInfo({
-    name: formData.title,
-    description: formData.description,
-  });
-  editProfilePopup.close();
-}
+  // data.title = nameInput.value;
+  // data.url = linkInput.value;
 
-function handleAddCardFormSubmit(inputValues) {
-  const name = inputValues.title;
-  const link = inputValues.url;
-  const cardData = { name: name, link: link };
-  cardListEl.addItem(createCard(cardData));
-  addCardPopup.close();
-  addCardFormElement.reset();
+  function makeRequest() {
+    console.log("Adding card with:", { name: data.title, link: data.url });
+    if (!data.title || !data.url) {
+      console.error("Name or link is missing");
+      return;
+    }
+    return api
+      .addCard({ name: data.title, link: data.url })
+      .then((cardData) => {
+        cardListEl.addItem(createCard(cardData));
+        addCardFormElement.reset();
+      });
+  }
+  handleSubmit(makeRequest, addCardPopup);
 }
 
 // correct and same as above but using destructuring
@@ -102,13 +288,41 @@ function handleAddCardFormSubmit(inputValues) {
 //   addCardFormElement.reset();
 // }
 
+addNewCardButton.addEventListener("click", () => {
+  addCardPopup.open();
+});
+
+// EDIT PROFILE MODAL AND METHODS
+const editProfilePopup = new PopupWithForm(
+  "#profile-edit-modal",
+  handleProfileEditSubmit,
+  editFormValidator
+);
+editProfilePopup.setEventListeners();
+
+// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
+function handleProfileEditSubmit(formData) {
+  // console.log(formData);
+  function makeRequest() {
+    // using the response from the API (res) to set the user info
+    return api.updateProfileInfo(formData).then((res) => {
+      // res is a ready object with name, about and avatar properties, so you have to use it while setting the user info:
+      console.log(res);
+      console.log(formData);
+      userInfo.setUserInfo({
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar,
+      });
+      // editProfilePopup.close();
+    });
+  }
+  handleSubmit(makeRequest, editProfilePopup);
+}
+
 profileEditButton.addEventListener("click", () => {
   const currentUserInfo = userInfo.getUserInfo();
   profileTitleInput.value = currentUserInfo.name;
   profileDescriptionInput.value = currentUserInfo.description;
   editProfilePopup.open();
-});
-
-addNewCardButton.addEventListener("click", () => {
-  addCardPopup.open();
 });
