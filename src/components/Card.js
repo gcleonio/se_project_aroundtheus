@@ -13,7 +13,7 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteCard = handleDeleteCard;
-    this._handleLikeClick = handleLikeIcon; // changed this._handleLikeIcon to this._handleLikeClick because it was making an error because you already have a method called _handleLikeIcon
+    this._handleLikeClick = handleLikeIcon; // changed this._handleLikeIcon to this._handleLikeClick because already have a method called _handleLikeIcon
   }
 
   // _setEventListeners method that sets the necessary event listeners
@@ -22,13 +22,6 @@ export default class Card {
     this._likeButton.addEventListener("click", () => {
       this._handleLikeClick(this); // changed to _handleLikeClick, this sends the needed reference to call api.likeCard or api.unlikeCard
     });
-
-    // card delete button
-    // this._cardElement
-    //   .querySelector(".card__delete-button")
-    //   .addEventListener("click", () => {
-    //     this._handleDeleteCard();
-    //   });
 
     this._trashButton.addEventListener("click", () => {
       this._handleDeleteCard(this._id, this);
@@ -41,13 +34,6 @@ export default class Card {
         this._handleImageClick({ name: this._name, link: this._link });
       });
   }
-
-  // // advised against using toggle functionality to change icon
-  // // private method for like button handler, not the same as in constructor
-  // _handleLikeIcon() {
-  //   //should not be the same name as in constructor because it was being defined twice - once in the constructor and once as a method in the class. one was overwriting the other.
-  //   this._likeButton.classList.toggle("card__like-button_active");
-  // }
 
   handleDeleteCard() {
     this._cardElement.remove();
@@ -63,7 +49,6 @@ export default class Card {
 
   setButtonState() {
     if (this.isLiked) {
-      // this._handleLikeIcon(); // use card method, not the one from the constructor
       this._likeButton.classList.add("card__like-button_active");
     } else {
       this._likeButton.classList.remove("card__like-button_active");
