@@ -25,8 +25,6 @@ import {
   editAvatarButton,
   avatarForm,
   avatarUrlInput,
-
-  // initialCards,
 } from "../utils/constants.js";
 
 const editFormValidator = new FormValidator(config, profileEditForm);
@@ -46,7 +44,7 @@ const api = new API({
   },
 });
 
-//For testing purposes, you can assign api to window.api in your JavaScript setup to make it accessible globally
+//For testing purposes, can assign api to window.api in JavaScript setup to make it accessible globally
 window.api = api;
 
 // Create New Card Element
@@ -64,7 +62,6 @@ function createCard(item) {
 // Add elements to the DOM
 const cardListEl = new Section(
   {
-    // items: initialCards, //remove since no longer need to show initial hardcoded cards
     renderer: (data) => {
       cardListEl.addItem(createCard(data));
     },
@@ -72,9 +69,6 @@ const cardListEl = new Section(
 
   ".cards__list"
 );
-
-// old code to delete before submission
-// cardListEl.renderItems();
 
 // Initial Cards
 api
@@ -97,21 +91,13 @@ const userInfo = new UserInfo({
 });
 
 // Ensure that user's profile avatar, name, and description persist correctly on page refresh
-// api.getUserInfo() call should be used to set the user info in your UI elements (e.g., text fields or image src attributes)
+// api.getUserInfo() call should be used to set the user info in UI elements (e.g., text fields or image src attributes)
 document.addEventListener("DOMContentLoaded", () => {
   api
     .getUserInfo()
     .then((userData) => {
       console.log("User Data:", userData);
-
       // Update UI with user data
-      // document.querySelector(".profile__image").src = userData.avatar;
-      // document.querySelector(".profile__title").textContent = userData.name;
-      // document.querySelector(".profile__description").textContent =
-      //   userData.about;
-
-      // use UserInfo to set entire profile data (including the avatar)
-      // ensure setUserInfo and setProfileAvatar methods are being passed the correct data
       userInfo.setProfileAvatar(userData.avatar);
       userInfo.setUserInfo(userData);
     })
@@ -145,49 +131,21 @@ function handleLikeIcon(card) {
   if (!card.isLiked) {
     // if card is not liked, like it
     api
-      .likeCard(card._id) //card._id is the id of the card
+      .likeCard(card._id)
       .then(() => {
         console.log(card);
-        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
-        // card.isLiked = true;
         card.setIsLiked(true);
       })
       .catch(console.error);
   } else {
     api
-      .unlikeCard(card._id) // card._id is the id of the card
+      .unlikeCard(card._id)
       .then(() => {
-        //shouldn't set value of isLiked outside the card. this is now set in setButtonState()
-        // card.isLiked = false;
         card.setIsLiked(false);
       })
       .catch(console.error);
   }
 }
-
-// // Like and unlike
-// function handleLikeIcon(card) {
-//   if (!card._isLiked) {
-//     // if card is not liked, like it
-//     api
-//       .likeCard(card) //card._id is the id of the card
-//       .then(() => {
-//         console.log(cardID);
-//         console.log(card);
-//         card.isLiked = true;
-//         card.setButtonState();
-//       })
-//       .catch(console.error);
-//   } else {
-//     api
-//       .unlikeCard(cardID) // card._id is the id of the card
-//       .then(() => {
-//         card.isLiked = false;
-//         card.setButtonState();
-//       })
-//       .catch(console.error);
-//   }
-// }
 
 // Delete modal and methods
 const deleteCardPopup = new PopupWithConfirm({
@@ -227,10 +185,10 @@ editAvatarButton.addEventListener("click", () => {
 });
 
 function handleAvatarFormSubmit(data) {
-  // console.log this inputValue since this is the one going to the api request
+  // console.log this inputValue this is the one going to the api request
   console.log(data);
   function makeRequest() {
-    //data has 'link' property. need to use link property on api call
+    // data has 'link' property. need to use link property on api call
     return api.updateAvatar(data.link).then((res) => {
       console.log(res);
       // using avatar property of res object to set profile avatar
@@ -258,11 +216,6 @@ addCardPopup.setEventListeners();
 
 function handleAddCardFormSubmit(data) {
   console.log(data);
-  // const nameInput = document.querySelector("#new-place-title-input");
-  // const linkInput = document.querySelector("#new-place-url-input");
-
-  // data.title = nameInput.value;
-  // data.url = linkInput.value;
 
   function makeRequest() {
     console.log("Adding card with:", { name: data.title, link: data.url });
@@ -280,14 +233,6 @@ function handleAddCardFormSubmit(data) {
   handleSubmit(makeRequest, addCardPopup);
 }
 
-// correct and same as above but using destructuring
-// function handleAddCardFormSubmit({ title, url }) {
-//   const cardData = { name: title, link: url };
-//   cardListEl.addItem(createCard(cardData));
-//   addCardPopup.close();
-//   addCardFormElement.reset();
-// }
-
 addNewCardButton.addEventListener("click", () => {
   addCardPopup.open();
 });
@@ -300,13 +245,11 @@ const editProfilePopup = new PopupWithForm(
 );
 editProfilePopup.setEventListeners();
 
-// since setUserInfo is expecting an object with name property and description property, use name & description key/value pairs with formData inside {}
 function handleProfileEditSubmit(formData) {
-  // console.log(formData);
   function makeRequest() {
     // using the response from the API (res) to set the user info
     return api.updateProfileInfo(formData).then((res) => {
-      // res is a ready object with name, about and avatar properties, so you have to use it while setting the user info:
+      // res is a ready object with name, about and avatar properties, use it while setting the user info:
       console.log(res);
       console.log(formData);
       userInfo.setUserInfo({
@@ -314,7 +257,6 @@ function handleProfileEditSubmit(formData) {
         about: res.about,
         avatar: res.avatar,
       });
-      // editProfilePopup.close();
     });
   }
   handleSubmit(makeRequest, editProfilePopup);

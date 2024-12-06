@@ -28,9 +28,9 @@ export default class FormValidator {
 
   _showInputError(inputEl) {
     const errorMessageEl = this._form.querySelector(`#${inputEl.id}-error`);
-    inputEl.classList.add(this._inputErrorClass); // is this line necessary? because .modal__input_type_error is blank in modal.css
+    inputEl.classList.add(this._inputErrorClass);
     errorMessageEl.textContent = inputEl.validationMessage;
-    errorMessageEl.classList.add(this._errorClass); // in constants.js should config.errorClass = "modal__error", not "modal__error_visible"? .modal__error_visible in modal.css in blank
+    errorMessageEl.classList.add(this._errorClass);
   }
 
   //   hideInputError only 1 argument (inputElement) because it only hides error message
@@ -78,8 +78,6 @@ export default class FormValidator {
   enableValidation() {
     this._form.addEventListener("submit", (e) => {
       e.preventDefault();
-      // disable the button only in a then block after a successful response to be able to click it again if there is a server error
-      // this._disableSubmitButton();
     });
     this._setEventListeners();
   }

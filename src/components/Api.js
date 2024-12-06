@@ -21,30 +21,17 @@ export default class API {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // other methods for working with API...
+
   // POST /cards – Create a card
   addCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ name, link }),
-    }).then(this._handleResponse); // This returns the API response as JSON.
-
-    //   commented out below, because since there is no 'return', the value returned from 'addCard' is essentially 'undefined' which would pass 'undefined' to the calling function
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
+    }).then(this._handleResponse);
   }
 
   // DELETE /cards/:cardId – Delete a card
@@ -53,12 +40,6 @@ export default class API {
       method: "DELETE",
       headers: this._headers,
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // PUT /cards/:cardId/likes – Like a card
@@ -67,12 +48,6 @@ export default class API {
       method: "PUT",
       headers: this._headers,
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // DELETE /cards/:cardId/likes – Dislike a card
@@ -81,12 +56,6 @@ export default class API {
       method: "DELETE",
       headers: this._headers,
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // User routes
@@ -95,12 +64,6 @@ export default class API {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // PATCH /users/me – Update your profile information
@@ -113,12 +76,6 @@ export default class API {
         about: description,
       }),
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // PATCH /users/me/avatar – Update avatar
@@ -128,12 +85,6 @@ export default class API {
       headers: this._headers,
       body: JSON.stringify({ avatar: url }),
     }).then(this._handleResponse);
-    //   .then((result) => {
-    //     console.log(result);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
   }
 
   // Renders cards after user info is received from server
